@@ -22,16 +22,12 @@ function TodoList() {
 
     axios
     .post("http://localhost:3000/api/v1/to-dos/", {...todo}).then(() => {
-      axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
-        setTodos(data.todos);
-        console.log(data.todos);
-      });
+      //axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
+        //setTodos(data.todos);
+        //console.log(data.todos);
+      //});
+      getTodo();
     });
-
-    //const newTodos = [todo, ...todos];
-
-    //setTodos(newTodos);
-    //console.log(...todos);
   };
 
   const showDescription = (todoId) => {
@@ -55,9 +51,16 @@ function TodoList() {
   };
 
   const removeTodo = (id) => {
-    const removedArr = [...todos].filter((todo) => todo.id !== id);
-
-    setTodos(removedArr);
+    //const removedArr = [...todos].filter((todo) => todo.id !== id);
+    axios
+    .delete(`http://localhost:3000/api/v1/to-dos/${id}`).then(() => {
+      /*axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
+        setTodos(data.todos);
+        console.log(data.todos);
+      });*/
+      getTodo();
+    });
+    //setTodos(removedArr);
   };
 
   const completeTodo = (id) => {
@@ -68,6 +71,13 @@ function TodoList() {
       return todo;
     });
     setTodos(updatedTodos);
+  };
+
+  const getTodo = () => {
+    axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
+        setTodos(data.todos);
+        console.log(data.todos);
+      });
   };
 
   return (
