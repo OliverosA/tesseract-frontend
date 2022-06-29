@@ -27,9 +27,10 @@ function TodoForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    //no enviamos el id porque en la bd ya se autoincrementa automaticamente
     props.onSubmit({
-      id: Math.floor(Math.random() * 10000),
-      text: input,
+      //id: Math.floor(Math.random() * 10000),
+      title: input,
       description,
       isDone: false,
       showDescription: false,

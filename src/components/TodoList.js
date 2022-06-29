@@ -2,23 +2,36 @@ import React, { useState } from "react";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import { useEffect } from "react";
+import axios from "axios"; //importando axios para la comunicacion con la API
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    console.log(todos);
-  }, [todos]);
+    //console.log(todos);
+    axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
+      setTodos(data.todos);
+    });
+  }, []);
 
   const addTodo = (todo) => {
-    if (!todo.text || /^\s*$/.test(todo.text)) {
+    //validando que title no este vacio o no tenga solo espacios en blanco
+    if (!todo.title || /^\s*$/.test(todo.title)) {
       return;
     }
 
-    const newTodos = [todo, ...todos];
+    axios
+    .post("http://localhost:3000/api/v1/to-dos/", {...todo}).then(() => {
+      axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
+        setTodos(data.todos);
+        console.log(data.todos);
+      });
+    });
 
-    setTodos(newTodos);
-    console.log(...todos);
+    //const newTodos = [todo, ...todos];
+
+    //setTodos(newTodos);
+    //console.log(...todos);
   };
 
   const showDescription = (todoId) => {
@@ -32,7 +45,7 @@ function TodoList() {
   };
 
   const updateTodo = (todoId, newValue) => {
-    if (!newValue.text || /^\s*$/.test(newValue.text)) {
+    if (!newValue.title || /^\s*$/.test(newValue.title)) {
       return;
     }
 
@@ -60,13 +73,14 @@ function TodoList() {
   return (
     <>
       <h1>What's the Plan for Today?</h1>
-      <TodoForm onSubmit={addTodo} />
+      <TodoForm onSubmit={addTodo}/>
       <Todo
         todos={todos}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
         updateTodo={updateTodo}
         showDescription={showDescription}
+        
       />
     </>
   );
