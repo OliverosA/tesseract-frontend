@@ -8,10 +8,7 @@ function TodoList() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    //console.log(todos);
-    axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
-      setTodos(data.todos);
-    });
+    getTodo();
   }, []);
 
   const addTodo = (todo) => {
@@ -20,12 +17,8 @@ function TodoList() {
       return;
     }
 
-    axios
+    await axios
     .post("http://localhost:3000/api/v1/to-dos/", {...todo}).then(() => {
-      //axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
-        //setTodos(data.todos);
-        //console.log(data.todos);
-      //});
       getTodo();
     });
   };
@@ -51,16 +44,10 @@ function TodoList() {
   };
 
   const removeTodo = (id) => {
-    //const removedArr = [...todos].filter((todo) => todo.id !== id);
-    axios
+    await axios
     .delete(`http://localhost:3000/api/v1/to-dos/${id}`).then(() => {
-      /*axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
-        setTodos(data.todos);
-        console.log(data.todos);
-      });*/
       getTodo();
     });
-    //setTodos(removedArr);
   };
 
   const completeTodo = (id) => {
@@ -73,12 +60,16 @@ function TodoList() {
     setTodos(updatedTodos);
   };
 
-  const getTodo = () => {
-    axios.get("http://localhost:3000/api/v1/to-dos/").then(({ data }) => {
-        setTodos(data.todos);
-        console.log(data.todos);
-      });
-  };
+  // obteniendo los todo de la API
+  /*const getTodo = () => {
+    await axios.get("http://localhost:3000/api/v1/to-dos/")
+    .then(({ data }) => {
+      setTodos(data.todos);
+    })
+    .catch((error) => {
+      alert(error.response.data.message);
+    })
+  };*/
 
   return (
     <>
