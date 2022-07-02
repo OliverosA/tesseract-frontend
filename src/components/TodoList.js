@@ -3,7 +3,7 @@ import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import { useEffect } from "react";
 import axios from "axios";
-import { getTodos, updateTodos } from "../lib/api";
+import { getTodos, updateData } from "../lib/api";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -24,7 +24,7 @@ function TodoList() {
     .post("http://localhost:3000/api/v1/to-dos/", {...todo}).then(() => {
       getTodos()
       .then((todos) => setTodos(todos))
-      .catch((error) => {return});
+      .catch((error) => console.log(error));
     });
   };
 
@@ -38,17 +38,18 @@ function TodoList() {
     setTodos(updatedTodos);
   };
 
-  const updateTodo = (todoId, newValue) => {
-    if (!newValue.title || /^\s*$/.test(newValue.title)) {
+  const updateTodo = (todoId, { title, description }) => {
+    if (!title || /^\s*$/.test(title)) {
       return;
     }
 
     // creando metodo para actualizar ToDo en la API
-    updateTodos(todoId, newValue).then(() => {
+    updateData(todoId, { title, description }).then(() => {
       getTodos()
-      .then((todos) => setTodos(todos))
-      .catch((error) => console.log(error));
+        .then((todos) => setTodos(todos))
+        .catch((error) => console.log(error));
     })
+    .catch((error) => console.log(error));
 
   };
 
@@ -62,11 +63,11 @@ function TodoList() {
   };
 
   const completeTodo = (id, is_done) => {
-    updateTodos(id, {isDone: is_done ===1 ? 0 : 1})
+    updateData(id, { isDone: is_done === 1 ? 0 : 1 })
     .then(() => {
       getTodos()
-      .then((todos) => setTodos(todos))
-      .catch((error) => console.log(error));
+        .then((todos) => setTodos(todos))
+        .catch((error) => console.log(error));
     })
     .catch((error) => console.log(error));
   };

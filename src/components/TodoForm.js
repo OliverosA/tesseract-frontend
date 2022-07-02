@@ -46,7 +46,7 @@ function TodoForm(props) {
             placeholder="Update your item"
             value={input}
             onChange={handleChange}
-            name="title"
+            name="text"
             ref={inputRef}
             className="todo-input edit todo-description"
           />
@@ -68,7 +68,7 @@ function TodoForm(props) {
             placeholder="Add a todo"
             value={input}
             onChange={handleChange}
-            name="title"
+            name="text"
             className="todo-input"
             ref={inputRef}
           />
