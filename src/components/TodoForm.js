@@ -29,7 +29,6 @@ function TodoForm(props) {
 
     //no enviamos el id porque en la bd ya se autoincrementa automaticamente
     props.onSubmit({
-      //id: Math.floor(Math.random() * 10000),
       title: input,
       description,
       isDone: false,
@@ -47,7 +46,7 @@ function TodoForm(props) {
             placeholder="Update your item"
             value={input}
             onChange={handleChange}
-            name="text"
+            name="title"
             ref={inputRef}
             className="todo-input edit todo-description"
           />
@@ -69,7 +68,7 @@ function TodoForm(props) {
             placeholder="Add a todo"
             value={input}
             onChange={handleChange}
-            name="text"
+            name="title"
             className="todo-input"
             ref={inputRef}
           />

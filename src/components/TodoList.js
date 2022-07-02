@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import { useEffect } from "react";
-import axios from "axios"; //importando axios para la comunicacion con la API
+import axios from "axios";
+import { getTodos, updateTodos } from "../lib/api";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    getTodo();
+    getTodos()
+      .then((todos) => setTodos(todos))
+      .catch((error) => alert(error.message));
   }, []);
 
   const addTodo = (todo) => {
@@ -17,9 +20,11 @@ function TodoList() {
       return;
     }
 
-    await axios
+    axios
     .post("http://localhost:3000/api/v1/to-dos/", {...todo}).then(() => {
-      getTodo();
+      getTodos()
+      .then((todos) => setTodos(todos))
+      .catch((error) => {return});
     });
   };
 
@@ -38,38 +43,33 @@ function TodoList() {
       return;
     }
 
-    setTodos((prev) =>
-      prev.map((item) => (item.id === todoId ? newValue : item))
-    );
+    // creando metodo para actualizar ToDo en la API
+    updateTodos(todoId, newValue).then(() => {
+      getTodos()
+      .then((todos) => setTodos(todos))
+      .catch((error) => console.log(error));
+    })
+
   };
 
   const removeTodo = (id) => {
-    await axios
+    axios
     .delete(`http://localhost:3000/api/v1/to-dos/${id}`).then(() => {
-      getTodo();
+      getTodos()
+      .then((todos) => setTodos(todos))
+      .catch((error) => alert(error.message));
     });
   };
 
-  const completeTodo = (id) => {
-    let updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.isComplete = !todo.isComplete;
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
+  const completeTodo = (id, is_done) => {
+    updateTodos(id, {isDone: is_done ===1 ? 0 : 1})
+    .then(() => {
+      getTodos()
+      .then((todos) => setTodos(todos))
+      .catch((error) => console.log(error));
+    })
+    .catch((error) => console.log(error));
   };
-
-  // obteniendo los todo de la API
-  /*const getTodo = () => {
-    await axios.get("http://localhost:3000/api/v1/to-dos/")
-    .then(({ data }) => {
-      setTodos(data.todos);
-    })
-    .catch((error) => {
-      alert(error.response.data.message);
-    })
-  };*/
 
   return (
     <>
