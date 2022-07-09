@@ -72,6 +72,9 @@ const Todo = ({
       <div className="description">
         Creation Date: {todo.creation_date}
       </div>
+      <div className={todo.edit_date === "" ? "empty" : "description"}>
+        Edit Date: {todo.edit_date}
+      </div>
       {todo.showDescription && (
         <div onClick={() => completeTodo(todo.id, todo.is_done)} className="description">
           Description: {todo.description}

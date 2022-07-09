@@ -8,8 +8,9 @@ function TodoForm(props) {
   const [description, setDescription] = useState(
     props.edit ? props.edit.description : ""
   );
-
+  
   const inputRef = useRef(null);
+
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -57,7 +58,6 @@ function TodoForm(props) {
             name="description"
             className="todo-input todo-description"
           />
-
           <button onClick={handleSubmit} className="todo-button">
             <RiCheckboxCircleLine />
           </button>

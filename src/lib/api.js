@@ -12,10 +12,10 @@ export async function getTodos() {
 }
 
 export async function updateData(todoID, todoData){
-    try {
-        await axios.patch(`http://localhost:3000/api/v1/to-dos/${todoID}`, { ...todoData });
-    } catch (response) {
-        throw new Error(response.data.message);
-    }
+  try {
+      await axios.patch(`http://localhost:3000/api/v1/to-dos/${todoID}`, { ...todoData });
+  } catch (response) {
+      throw new Error(response.data.message);
+  }
 }
 

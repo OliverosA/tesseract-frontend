@@ -170,5 +170,10 @@ h1 {
 }
 
 .description {
+  line-height : 25px;
   display: flex;
+}
+
+.empty{
+  display: none;
 }
