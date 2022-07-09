@@ -32,7 +32,6 @@ const Todo = ({
   }
 
   return todos.map((todo, index) => (
-    // <div>
     <div
       className={todo.is_done === 1 ? "todo-row complete" : "todo-row"}
       key={index}
@@ -70,13 +69,15 @@ const Todo = ({
           />
         </div>
       </div>
+      <div className="description">
+        Creation Date: {todo.creation_date}
+      </div>
       {todo.showDescription && (
         <div onClick={() => completeTodo(todo.id, todo.is_done)} className="description">
           Description: {todo.description}
         </div>
       )}
     </div>
-    // </div>
   ));
 };
 
